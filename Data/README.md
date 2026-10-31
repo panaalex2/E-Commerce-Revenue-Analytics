@@ -6,7 +6,7 @@ This project uses the **Online Retail II** dataset from the **UCI Machine Learni
 
 **Dataset:** Online Retail II  
 **Source:** https://archive.ics.uci.edu/dataset/502/online%2Bretail%2Bii?utm_source=chatgpt.com
-**License:**https://creativecommons.org/licenses/by/4.0/legalcode
+**License:** https://creativecommons.org/licenses/by/4.0/legalcode
 
 The dataset contains transactional data from a UK-based online retailer covering the period from **December 2009 to December 2011**.
 
