@@ -188,3 +188,35 @@ FROM dbo.All_sales
 GROUP BY Invoice, StockCode, Description,Quantity,InvoiceDate,Price,Customer_ID,Country
 HAVING COUNT(*) > 1
 ORDER By Occurrences DESC
+
+
+-- ============================================
+-- 11. Quantity > 0 and Price = 0
+-- ============================================
+
+SELECT 
+    Description,
+    StockCode,
+    COUNT (*) AS Total_rows,
+    SUM (Quantity) AS Total_Quantity,
+    SUM (CASE 
+        WHEN Customer_ID IS NOT NULL THEN 1 ELSE 0 END)  AS Rows_With_Customer_ID
+FROM dbo.All_sales
+WHERE LEFT (Invoice,1) <> 'C' AND LEFT (Invoice,1) <> 'A' AND Price = 0 AND Quantity >0
+GROUP BY  Description, StockCode
+ORDER BY StockCode DESC
+
+
+WITH price_0_PosQuantity AS (
+    SELECT *
+    FROM dbo.All_sales
+    WHERE LEFT (Invoice,1) <> 'C' AND LEFT (Invoice,1) <> 'A' AND Price = 0 AND Quantity > 0
+)
+
+SELECT *
+FROM price_0_PosQuantity AS neg
+LEFT JOIN dbo.All_sales AS  other
+        ON neg.StockCode = other.StockCode
+WHERE other.Price >0
+
+-- Positive-quantity, zero-price records were confirmed as stock / operational adjustments rather than normal sales, based on correction-related descriptions and the same StockCodes appearing elsewhere with valid prices.
