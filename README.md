@@ -25,10 +25,12 @@ The main fields include:
 - Customer_ID
 - Country
 
-The original dataset was provided across two yearly files:
+The original dataset was provided as a single Excel workbook containing two worksheets:
 
 - 2009–2010
 - 2010–2011
+
+Each worksheet was exported to a separate CSV file and imported into SQL Server for analysis.
 
 ## Tools
 
@@ -42,13 +44,13 @@ The original dataset was provided across two yearly files:
 The project follows a structured analytics pipeline:
 
 Raw source data  
-→ Source validation  
-→ Combined staging table  
-→ Data quality investigation  
-→ Cleaning and transaction classification  
-→ Analytical data model  
-→ Revenue and customer analysis  
-→ Power BI dashboard
+→ CSV Export & SQL Server Import
+→ Source Validation & Staging
+→ Data Quality Investigation
+→ Transaction Classification
+→ Relational Data Modelling 
+→ SQL Business KPIs & Analysis
+→ Power BI Dashboard
 
 ## SQL Development
 
@@ -102,20 +104,40 @@ For example:
 
 `02_data_quality_investigation.sql`
 
+### 03 — Transaction Cleaning & Data Modelling
+
+Creates a structured analytical data model using the findings from the data quality investigation.
+
+Key activities include:
+- Classifying transactions into commercial sales, cancellations, adjustments, and other transaction categories.
+- Calculating transaction values and preparing date fields for reporting.
+- Creating a central transaction table (dbo.Transactions).
+- Building four dimension tables: DimCustomer, DimProduct, DimInvoice, and DimDate.
+- Standardizing product descriptions using CTEs, conditional aggregation, and ROW_NUMBER().
+- Validating dimension keys, relationships, and data consistency.
+- Confirming that JOINs preserve transaction counts and monetary values.
+The model preserves transaction records, including those with missing Customer IDs, while separating different business activities through transaction classification.
+
+`03_cleaning_and_modelling.sql`
+
 ## Current Status
 
-The project is currently in the **data quality investigation and cleaning stage**.
+The SQL data preparation and modelling phase is complete.
 
-Next steps include:
+Completed:
+- Database setup and data import
+- Source validation and consolidation
+- Data quality investigation
+- Transaction classification
+- Creation of the central transaction table and four dimension tables
+- Data model validation
 
-- Define transaction categories
-- Establish cleaning rules
-- Separate commercial sales from accounting and operational adjustments
-- Create analytical tables
-- Calculate revenue KPIs
-- Perform customer, product, country, and time-based analysis
-- Build the Power BI data model
-- Develop the final Power BI dashboard
+Next steps:
+- Define and calculate business KPIs using SQL
+- Analyze revenue, customers, products, and international sales
+- Build reusable SQL reporting views
+- Develop the Power BI data model and dashboard
+- Document key business insights and recommendations
 
 ## Planned Business Analysis
 
